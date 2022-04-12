@@ -1,24 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
 
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useRoutes,
+} from 'react-router-dom';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import SearchHotel from './pages/SearchHotel';
+function AppRoutes() {
+  const routes = useRoutes(
+    [
+      {path:'/',element:<Login/>},
+      {path:'/signup',element:<Register/>
+    },
+    {path:'/search',element:<SearchHotel/>
+    }
+    ]
+  )
+  return routes;
+}
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <Router>
+     <AppRoutes/>
+   </Router>
   );
 }
 
