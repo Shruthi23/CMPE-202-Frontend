@@ -15,7 +15,7 @@ export default class Login extends Component {
         }
     }
 componentDidUpdate(prevState){
-    console.log("navigate state",prevState)
+    console.log("navigate state--->",prevState)
     if(this.state.navigate!=prevState.navigate && this.state.navigate){
         console.log("navigate")
         this.props.history.push("/search")
