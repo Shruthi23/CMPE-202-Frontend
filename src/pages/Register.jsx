@@ -4,11 +4,17 @@ import {FaUser,FaKey,FaEnvelope} from 'react-icons/fa'
 import background from "../assets/loginBg.jpeg";
 import Dropdown from 'react-dropdown';
 import Select from 'react-select';
+import UserPool from "../UserPool";
 
 export default class Register extends Component{
     constructor(){
         super();
         this.state={
+          fname:"",
+          lname:"",
+          email:"",
+          password:"",
+
             userType:"Customer",
             hotelList:[{
                 label:"Hilton",
@@ -27,6 +33,44 @@ export default class Register extends Component{
         ],
         hotelSelected:""
         }
+    }
+    onSubmit=(event)=>{
+      event.preventDefault();
+      UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
+        if(err){
+          console.log("Err",err)
+        }
+        console.log("data--->",data)
+        //call registartion api
+
+      })
+      // UserPool.signUp({
+      //   //ClientId: process.env.COGNITO_USER_IDENTITY_POOL_CLIENT_ID,
+      //   email: this.state.email,
+      //   Password: this.state.password,
+      //   UserAttributes: [
+      //     {
+      //       Name: 'fname',
+      //       Value: this.state.fname
+      //     },
+      //     {
+      //       Name: 'lname',
+      //       Value: this.state.lname
+      //     },
+      //     {
+      //       Name: 'Type',
+      //       Value: "Customer"
+      //     }
+      //   ]
+      // }, function(err, data) {
+        
+      //   //return callbackLocal(err);
+      //   if(err){
+      //     console.log("Err-->",err)
+      //   }
+      //   console.log("Sucess----->",data)
+      // });
+
     }
   
     render() {
@@ -79,29 +123,46 @@ export default class Register extends Component{
           ];
        return (
             <div style={{height:'100vh',display:'flex',justifyContent:'center',alignItems:'center',backgroundImage: `url(${background})` ,backgroundSize:"cover" }}>
-            <form style={{paddingTop:'10%',paddingBottom:"10%", borderRadius:10,backgroundColor:'white',paddingLeft:"5%",paddingRight:"5%"}}>
+            <form onSubmit={this.onSubmit} style={{paddingTop:'10%',paddingBottom:"10%", borderRadius:10,backgroundColor:'white',paddingLeft:"5%",paddingRight:"5%"}}>
                 <h3 style={{textAlign:'center',fontWeight:"bold",fontSize:28}}>Sign Up</h3>
 
                 <div style={{flexDirection:"row",display:"flex",backgroundColor:"lightgray",width:300,borderRadius:6,alignItems:"center",paddingLeft:10,marginTop:10}} className="form-group">
                     <FaUser size={10} color={"gray"}/>
                    
-                    <input style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="text" className="form-control" placeholder="First Name" />
+                    <input 
+                    onChange={(t)=>{
+                      this.setState({fname:t.target.value})
+                    }}
+                    style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="text" className="form-control" placeholder="First Name" />
                 </div>
                 <div style={{flexDirection:"row",display:"flex",backgroundColor:"lightgray",width:300,borderRadius:6,alignItems:"center",paddingLeft:10,marginTop:10}} className="form-group">
                     <FaUser size={10} color={"gray"}/>
                    
-                    <input style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="text" className="form-control" placeholder="Last Name" />
+                    <input
+                     onChange={(t)=>{
+                      this.setState({lname:t.target.value})
+                    }}
+                    
+                    style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="text" className="form-control" placeholder="Last Name" />
                 </div>
                 <div style={{flexDirection:"row",display:"flex",backgroundColor:"lightgray",width:300,borderRadius:6,alignItems:"center",paddingLeft:10,marginTop:10}} className="form-group">
                     <FaEnvelope size={10} color={"gray"}/>
                    
-                    <input style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="email" className="form-control" placeholder="Email" />
+                    <input
+                     onChange={(t)=>{
+                      this.setState({email:t.target.value})
+                    }}
+                    style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="email" className="form-control" placeholder="Email" />
                 </div>
 
                 <div style={{flexDirection:"row",display:"flex",backgroundColor:"lightgray",width:"100%",borderRadius:6,alignItems:"center",paddingLeft:10,marginTop:10}} className="form-group">
                     <FaKey size={10} color={"gray"}/>
                    
-                    <input style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="password" className="form-control" placeholder="Password" />
+                    <input 
+                     onChange={(t)=>{
+                      this.setState({password:t.target.value})
+                    }}
+                    style={{borderColor:"transparent",backgroundColor:"transparent",fontSize:10}} type="password" className="form-control" placeholder="Password" />
                 </div>
                 <Select
                placeholder={"User Type"}
